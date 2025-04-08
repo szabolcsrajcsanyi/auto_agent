@@ -2,3 +2,5 @@
 venv/
 **/__pycache__/
 src/app/database/config.py
+chroma/
+chromadb/

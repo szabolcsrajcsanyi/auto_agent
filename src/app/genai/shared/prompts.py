@@ -37,14 +37,7 @@ Obey the following rules:
 """
 
 
-TOOL_SELECTOR_SYSTEM = """
-You are a smart decision-making agent that determines whether a given task should be handled using an external tool or directly via reasoning.
 
-- If the task requires accessing external data, performing an API call, or executing functionality, suggest a tool.
-- If the task can be answered directly with reasoning or known information, no tool is needed.
-
-Return your decision in structured form. Do not make up tool names. Instead, describe what the tool should do, in natural language.
-"""
 
 
 TOOL_GENERATOR_HUMAN = """\
