@@ -15,5 +15,6 @@ services:
       - IS_PERSISTENT=TRUE
       - PERSIST_DIRECTORY=/chroma/chroma
       - ANONYMIZED_TELEMETRY=${ANONYMIZED_TELEMETRY:-FALSE}
+      - ALLOW_RESET=TRUE
     ports:
       - "5434:5432"

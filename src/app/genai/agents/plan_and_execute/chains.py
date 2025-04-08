@@ -1,26 +1,23 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import SystemMessage
 
 from src.app.genai.agents.plan_and_execute.schemas import Plan, Act
-from src.app.genai.agents.plan_and_execute.prompts import (
-        SYSTEM_PROMPT_PLAN,
-        SYSTEM_PROMPT_REPLANNER,
-        HUMAN_PROMPT_REPLANNER
-)
+from src.app.config.registry import AGENT_PROMPT_CONFIG
+from src.app.config.enums import AgentType
 from src.app.genai.shared.llm import llm
 
 
-planner_prompt = ChatPromptTemplate.from_messages([
-        SystemMessage(content=SYSTEM_PROMPT_PLAN),
-        ("human", "{task}")
-])
+def create_planner_chain(agent_type: AgentType):
+        planner_prompt = ChatPromptTemplate.from_messages([
+                SystemMessage(content=AGENT_PROMPT_CONFIG[agent_type]["planner_prompt"]["system_prompt"]),
+                ("human", "{task}")
+        ])
+        return planner_prompt | llm.with_structured_output(Plan)
 
 
-replanner_prompt = ChatPromptTemplate.from_messages([
-        SystemMessage(content=SYSTEM_PROMPT_REPLANNER),
-        ("human", HUMAN_PROMPT_REPLANNER)
-])
-
-
-planner = planner_prompt | llm.with_structured_output(Plan)
-replanner = replanner_prompt | llm.with_structured_output(Act)
+def create_replanner_chain(agent_type: AgentType):
+        replanner_prompt = ChatPromptTemplate.from_messages([
+                SystemMessage(content=AGENT_PROMPT_CONFIG[agent_type]["replanner_prompt"]["system_prompt"]),
+                ("human", AGENT_PROMPT_CONFIG[agent_type]["replanner_prompt"]["human_prompt"]),
+        ])
+        return replanner_prompt | llm.with_structured_output(Act)

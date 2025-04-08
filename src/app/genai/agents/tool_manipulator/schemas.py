@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import List, Optional
+
+from src.app.config.enums import AgentType
 
 
 class BaseTaskState(BaseModel):
@@ -18,6 +20,7 @@ class ToolData(BaseModel):
 
 class AgentState(BaseTaskState):
     task: str
+    agent_type: AgentType = AgentType.SMART_HOME # Default agent type
 
     # Tool logic
     tool_selection: ToolSelection = ToolSelection()
@@ -41,3 +44,8 @@ class ToolExpert(BaseModel):
 class RetrieveToolState(BaseModel):
     task: str
     retrieved_tool_ids: List[str] = []
+
+
+class ReviewCode(BaseModel):
+    code: str
+    

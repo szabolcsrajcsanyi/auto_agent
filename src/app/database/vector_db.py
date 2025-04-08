@@ -1,4 +1,5 @@
 import chromadb
+from chromadb.config import Settings
 from chromadb.api.types import QueryResult
 from chromadb.utils.embedding_functions import openai_embedding_function
 
@@ -8,7 +9,10 @@ from src.app.database.config import Config
 class VectorDatabase:
     def __init__(self, config: Config) -> None:
         self.config = config
-        self.client = chromadb.Client()
+        self.client = chromadb.PersistentClient(
+            path="./chroma", 
+            settings=Settings(allow_reset=True)
+        )
         self.embedding_function = openai_embedding_function.OpenAIEmbeddingFunction(
             api_key=self.config.OPENAI_API_KEY,
             model_name=self.config.EMBEDDING_MODEL
@@ -17,10 +21,15 @@ class VectorDatabase:
 
 
     def _initialize_collection(self) -> chromadb.Collection:
-        return self.client.create_collection(
+        return self.client.get_or_create_collection(
             name=self.config.COLLECTION_NAME, 
             embedding_function=self.embedding_function
         )
+    
+
+    def reset_vector_db(self) -> None:
+        self.client.reset()
+        self.collection = self._initialize_collection()
     
 
     def insert_vector(self, tool_descr: str, tool_id: str) -> None:
