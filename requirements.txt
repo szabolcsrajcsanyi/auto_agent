@@ -7,4 +7,6 @@ python-dotenv
 langchain_experimental
 chromadb
 streamlit
-streamlit_code_editor
+streamlit-monaco
+langchain-tavily
+pyowm

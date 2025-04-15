@@ -33,6 +33,8 @@ class VectorDatabase:
     
 
     def insert_vector(self, tool_descr: str, tool_id: str) -> None:
+        print("INSERTING")
+        print(tool_descr)
         self.collection.add(
             documents=[tool_descr],
             ids=[tool_id]

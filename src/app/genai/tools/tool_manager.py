@@ -1,16 +1,16 @@
 import re
-import importlib.util
 import sys
 import uuid
+import importlib.util
 from pathlib import Path
-from typing import List, Optional, Tuple
-from langchain.tools import BaseTool
 from pydantic import BaseModel
+from langchain.tools import BaseTool
+from typing import List, Optional, Tuple
 
-from src.app.database.vector_db import VectorDatabase
-from src.app.database.vector_db import vector_db
+from src.app.database.vector_db import VectorDatabase, vector_db
+from src.app.genai.tools.static_tools import tools as static_tools
 
-PATH_TOOLS = Path("src/app/tools/generated/")
+PATH_TOOLS = Path("src/app/genai/tools/generated/")
 
 
 class ToolMetadata(BaseModel):
@@ -24,6 +24,8 @@ class ToolManager:
     def __init__(self, vector_db: VectorDatabase):
         self.vector_db = vector_db
         self.tools: List[Tuple[str, BaseTool]] = []
+        self.vector_db.reset_vector_db()
+        # self._load_static_tools()
         self._load_existing_tools()
 
 
@@ -33,6 +35,7 @@ class ToolManager:
         
         for py_file in PATH_TOOLS.glob("*.py"):
             tool_name = py_file.stem
+            print(tool_name)
             try:
                 tool_function = self.import_tool_function(py_file, tool_name)
                 if tool_function:
@@ -42,6 +45,15 @@ class ToolManager:
                     raise ValueError(f"Skipped invalid tool: {tool_name}")
             except Exception as e:
                 raise ValueError(f"Error loading {tool_name}: {e}")
+
+
+    def  _load_static_tools(self):
+        for tool in static_tools:
+            try:
+                tool_metadata = self.register_tool_in_db(tool)
+                self.tools.append((tool_metadata.tool_id, tool))
+            except Exception as e:
+                raise ValueError(f"Error loading static tool: {e}")
 
 
     def _extract_tool_name(self, tool_code: str) -> Optional[str]:
@@ -57,14 +69,18 @@ class ToolManager:
     
 
     def import_tool_function(self, module_path: Path, tool_name: str) -> Optional[BaseTool]:
-        module_name = module_path.stem
-        spec = importlib.util.spec_from_file_location(module_name, module_path)
-        module = importlib.util.module_from_spec(spec)
-        sys.modules[module_name] = module
-        spec.loader.exec_module(module)
-        tool_function: BaseTool = getattr(module, tool_name, None)
-        return tool_function if callable(tool_function) else None
-    
+        try:
+            module_name = module_path.stem
+            spec = importlib.util.spec_from_file_location(module_name, module_path)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module
+            spec.loader.exec_module(module)
+
+            tool_function: BaseTool = getattr(module, tool_name, None)
+            return tool_function if callable(tool_function) else None
+        
+        except Exception as e:
+            raise ValueError(f"Failed to import tool function: {e}")
 
     def register_tool_in_db(self, tool_function: BaseTool) -> ToolMetadata:
         tool_specs = tool_function.args_schema.model_json_schema()
