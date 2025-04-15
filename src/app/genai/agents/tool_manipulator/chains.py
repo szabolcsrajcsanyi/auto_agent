@@ -1,31 +1,40 @@
 
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
 
-from src.app.genai.shared.llm import llm
-from src.app.genai.agents.tool_manipulator.schemas import ToolDecisionState
+from src.app.genai.llm import llm
+from src.app.genai.agents.tool_manipulator.schemas import ToolDecisionState, CandidateTool
 from src.app.config.enums import AgentType
-from src.app.config.registry import AGENT_PROMPT_CONFIG
+from src.app.config.registry import COMMON_PROMPT_CONFIG
 
 
-def create_selector_chain(agent_type: AgentType):
+def determin_possible_tool_chain() -> RunnablePassthrough:
     selector_prompt = ChatPromptTemplate.from_messages([
-        ("system", AGENT_PROMPT_CONFIG[agent_type]["selector_chain"]["system_prompt"]),
-        ("human", "{task}")
+        ("system", COMMON_PROMPT_CONFIG["possible_tool"]["system_prompt"]),
+        ("human", COMMON_PROMPT_CONFIG["possible_tool"]["human_prompt"]),
     ])
     return selector_prompt | llm.with_structured_output(ToolDecisionState)
 
 
-def create_python_expert_chain(agent_type: AgentType):
+def python_expert_chain() -> RunnablePassthrough:
     expert_prompt = ChatPromptTemplate.from_messages([
-        ("system", AGENT_PROMPT_CONFIG[agent_type]["python_expert"]["system_prompt"]),
-        ("human", AGENT_PROMPT_CONFIG[agent_type]["python_expert"]["human_prompt"]),
+        ("system", COMMON_PROMPT_CONFIG["python_expert"]["system_prompt"]),
+        ("human", COMMON_PROMPT_CONFIG["python_expert"]["human_prompt"]),
     ])
     return expert_prompt | llm
 
 
+def candidate_picker_chain() -> RunnablePassthrough:
+    tool_selector_prompt = ChatPromptTemplate.from_messages([
+        ("system", COMMON_PROMPT_CONFIG["candidate_picker_chain"]["system_prompt"]),
+        ("human", COMMON_PROMPT_CONFIG["candidate_picker_chain"]["human_prompt"]),
+    ])
+    return tool_selector_prompt | llm.with_structured_output(CandidateTool)
+
+
 #TODO:
 tool_executor_agent_prompt = ChatPromptTemplate.from_messages([
-    ("system", AGENT_PROMPT_CONFIG[AgentType.SMART_HOME]["tool_executor_agent_prompt"]["system_prompt"]),
+    ("system", COMMON_PROMPT_CONFIG["tool_executor_agent_prompt"]["system_prompt"]),
     ("human", "{input}"),
     ("placeholder", "{agent_scratchpad}")
 ])

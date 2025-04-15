@@ -1,20 +1,26 @@
-
 x-common-variables: &common-variables
   POSTGRES_DB: genai
   POSTGRES_USER: admin
   POSTGRES_PASSWORD: admin
 
 services:
-  chromadb:
-    image: chromadb/chroma:latest
-    container_name: chromadb
-    volumes:
-      - ./chromadb:/chroma/chroma
-    environment:
-      # in case you want to persist the data set this to TRUE, and uncomment the volume above
-      - IS_PERSISTENT=TRUE
-      - PERSIST_DIRECTORY=/chroma/chroma
-      - ANONYMIZED_TELEMETRY=${ANONYMIZED_TELEMETRY:-FALSE}
-      - ALLOW_RESET=TRUE
+  smart_home:
+    build: ./scenarios/smart_home/
+    image: smart-home-api:latest
+    container_name: smart-home-api
     ports:
-      - "5434:5432"
+      - "8505:80"
+
+  # chromadb:
+  #   image: chromadb/chroma:latest
+  #   container_name: chromadb
+  #   volumes:
+  #     - ./chromadb:/chroma/chroma
+  #   environment:
+  #     # in case you want to persist the data set this to TRUE, and uncomment the volume above
+  #     - IS_PERSISTENT=TRUE
+  #     - PERSIST_DIRECTORY=/chroma/chroma
+  #     - ANONYMIZED_TELEMETRY=${ANONYMIZED_TELEMETRY:-FALSE}
+  #     - ALLOW_RESET=TRUE
+  #   ports:
+  #     - "5434:5432"
