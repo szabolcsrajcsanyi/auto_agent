@@ -2,10 +2,10 @@ import streamlit as st
 from langgraph.types import Command
 from streamlit_monaco import st_monaco
 
-from src.app.streamlit_app.schema import ChatMessage
-from src.app.config.enums import PlanReviewAction, CodeReviewAction, PlanReviewType
-from src.app.genai.agents.plan_and_execute.schemas import ReviewPlan
-from src.app.genai.agents.tool_manipulator.schemas import ReviewCode
+from app.streamlit_app.schema import ChatMessage
+from app.config.enums import PlanReviewAction, CodeReviewAction, PlanReviewType
+from app.genai.agents.plan_and_execute.schemas import ReviewPlan
+from app.genai.agents.tool_manipulator.schemas import ReviewCode
 
 
 def render_plan_common(message: ChatMessage, replanner: bool = False):
@@ -198,6 +198,10 @@ def render_final_answer(message: ChatMessage):
     st.json(message.state.model_dump(), expanded=False)
     st.write(message.state.response)
 
+def render_evaluate_tool_outcome(message: ChatMessage):
+    st.markdown(message.content[0])
+    st.json(message.state.model_dump(), expanded=False)
+
 
 def render_messages():
     if len(st.session_state.messages) != 0:
@@ -224,6 +228,8 @@ def render_messages():
                     render_answer_with_tool(message)
                 elif node == "answer_without_tool":
                     render_answer_without_tool(message)
+                elif node == "evaluate_tool_outcome":
+                    render_evaluate_tool_outcome(message)
                 elif node == "replanner":
                     render_replanner(message)
                 elif node == "final_answer":

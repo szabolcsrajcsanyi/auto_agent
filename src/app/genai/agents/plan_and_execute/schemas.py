@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Tuple, Optional
 
-from src.app.config.enums import PlanReviewAction, PlanReviewType
+from app.config.enums import PlanReviewAction, PlanReviewType
 
 
 class Plan(BaseModel):

@@ -1,6 +1,3 @@
-from src.app.config.enums import AgentType
-
-
 SMART_HOME_PLAN_SYSTEM_PROMPT = """\
 You are an intelligent home assistant responsible for creating precise, practical, and clear step-by-step action plans to perform household tasks. \
 Each step in the plan should be concise, actionable, and directly executable by you or by interacting with connected smart home devices. \

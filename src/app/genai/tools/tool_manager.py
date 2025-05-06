@@ -7,10 +7,10 @@ from pydantic import BaseModel
 from langchain.tools import BaseTool
 from typing import List, Optional, Tuple
 
-from src.app.database.vector_db import VectorDatabase, vector_db
-from src.app.genai.tools.static_tools import tools as static_tools
+from app.database.vector_db import VectorDatabase, vector_db
+from app.genai.tools.static_tools import tools as static_tools
 
-PATH_TOOLS = Path("src/app/genai/tools/generated/")
+PATH_TOOLS = Path("/src/app/genai/tools/generated/")
 
 
 class ToolMetadata(BaseModel):
@@ -30,12 +30,13 @@ class ToolManager:
 
 
     def _load_existing_tools(self):
+        print("HALO", flush=True)
         if not PATH_TOOLS.exists():
             return
         
         for py_file in PATH_TOOLS.glob("*.py"):
             tool_name = py_file.stem
-            print(tool_name)
+            print(tool_name, flush=True)
             try:
                 tool_function = self.import_tool_function(py_file, tool_name)
                 if tool_function:

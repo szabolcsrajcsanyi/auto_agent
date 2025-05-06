@@ -1,7 +1,6 @@
 .env
 venv/
 **/__pycache__/
-src/app/database/config.py
 chroma/
 chromadb/
 src/app/genai/tools/static_tools.py

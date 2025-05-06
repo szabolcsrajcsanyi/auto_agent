@@ -1,5 +1,5 @@
-from src.app.config.enums import AgentType
-from src.app.config.prompts.shared import (
+from app.config.enums import AgentType
+from app.config.prompts.shared import (
     PYTHON_EXPERT_SYSTEM_PROMPT,
     PYTHON_EXPERT_HUMAN_PROMPT,
     TOOL_USAGE_DECISION_SYSTEM_PROMPT,
@@ -9,14 +9,16 @@ from src.app.config.prompts.shared import (
     TOOL_SELECTION_HUMAN_PROMPT,
     FEEDBACK_PLANNER_SYSTEM_PROMPT,
     FEEDBACK_PLANNER_HUMAN_PROMPT,
+    TOOL_EVALUATION_SYSTEM_PROMPT,
+    TOOL_EVALUATION_HUMAN_PROMPT
 )
-from src.app.config.prompts.smart_home import (
+from app.config.prompts.smart_home import (
     SMART_HOME_PLAN_SYSTEM_PROMPT,
     SMART_HOME_PLAN_HUMAN_PROMPT,
     SMART_HOME_REPLANNER_SYSTEM_PROMPT,
     SMART_HOME_REPLANNER_HUMAN_PROMPT,
 )
-from src.app.config.prompts.web_browse import (
+from app.config.prompts.web_browse import (
     WEB_BROWSE_PLAN_SYSTEM_PROMPT,
     WEB_BROWSE_REPLANNER_SYSTEM_PROMPT,
     WEB_BROWSE_REPLANNER_HUMAN_PROMPT,
@@ -64,5 +66,9 @@ COMMON_PROMPT_CONFIG = {
     "plan_via_feedback": {
         "system_prompt": FEEDBACK_PLANNER_SYSTEM_PROMPT,
         "human_prompt": FEEDBACK_PLANNER_HUMAN_PROMPT
+    },
+    "tool_evaluator": {
+        "system_prompt": TOOL_EVALUATION_SYSTEM_PROMPT,
+        "human_prompt": TOOL_EVALUATION_HUMAN_PROMPT
     }
 }

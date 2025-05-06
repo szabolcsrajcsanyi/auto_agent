@@ -18,12 +18,15 @@ tags_metadata = [
 
 
 app = FastAPI(
-    openapi_tags=tags_metadata, 
-    docs_url="/api/docs", 
-    redoc_url="/api/redoc",
-    openapi_url="/api/openapi.json"
+    openapi_tags=tags_metadata,
+    root_path="/api",
+    docs_url="/docs", 
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
 )
 api_router = APIRouter(prefix="/api")
+
+api_router.include_router(router_devices)
+api_router.include_router(router_rooms)
+
 app.include_router(api_router)
-app.include_router(router_devices)
-app.include_router(router_rooms)

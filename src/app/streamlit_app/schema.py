@@ -2,11 +2,11 @@ from pydantic import BaseModel, Field
 from langgraph.types import Interrupt
 from typing import Literal, List, Optional, Tuple
 
-from src.app.genai.agents.plan_and_execute.schemas import (
+from app.genai.agents.plan_and_execute.schemas import (
     PlanExecute,
     Response
 )
-from src.app.genai.agents.tool_manipulator.schemas import (
+from app.genai.agents.tool_manipulator.schemas import (
     AgentState
 )
 
@@ -31,5 +31,6 @@ class StreamOutput(BaseModel):
     decide_candidate_tool: Optional[AgentState] = None
     generate_tool: Optional[AgentState] = None
     answer_with_tool: Optional[AgentState] = None
+    evaluate_tool_outcome: Optional[AgentState] = None
     answer_without_tool: Optional[AgentState] = None
     

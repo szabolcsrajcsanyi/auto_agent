@@ -6,6 +6,8 @@ COPY ./app /src/app
 
 RUN pip install -r app/requirements.txt
 
+ENV PYTHONPATH=/src
+
 EXPOSE 80
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]    
+CMD ["streamlit", "run", "app/streamlit_app/streamlit_app.py", "--server.port=80", "--server.address=0.0.0.0"]

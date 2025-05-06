@@ -2,10 +2,14 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 
-from src.app.genai.llm import llm
-from src.app.genai.agents.tool_manipulator.schemas import ToolDecisionState, CandidateTool
-from src.app.config.enums import AgentType
-from src.app.config.registry import COMMON_PROMPT_CONFIG
+from app.genai.llm import llm, tool_generate_llm
+from app.genai.agents.tool_manipulator.schemas import (
+    ToolDecisionState, 
+    CandidateTool,
+    EvaluationResult
+)
+from app.config.enums import AgentType
+from app.config.registry import COMMON_PROMPT_CONFIG
 
 
 def determin_possible_tool_chain() -> RunnablePassthrough:
@@ -21,7 +25,7 @@ def python_expert_chain() -> RunnablePassthrough:
         ("system", COMMON_PROMPT_CONFIG["python_expert"]["system_prompt"]),
         ("human", COMMON_PROMPT_CONFIG["python_expert"]["human_prompt"]),
     ])
-    return expert_prompt | llm
+    return expert_prompt | tool_generate_llm
 
 
 def candidate_picker_chain() -> RunnablePassthrough:
@@ -30,6 +34,14 @@ def candidate_picker_chain() -> RunnablePassthrough:
         ("human", COMMON_PROMPT_CONFIG["candidate_picker_chain"]["human_prompt"]),
     ])
     return tool_selector_prompt | llm.with_structured_output(CandidateTool)
+
+
+def tool_evaluator_chain() -> RunnablePassthrough: 
+    tool_eval_prompt = ChatPromptTemplate.from_messages([
+        ("system", COMMON_PROMPT_CONFIG["tool_evaluator"]["system_prompt"]),
+        ("human", COMMON_PROMPT_CONFIG["tool_evaluator"]["human_prompt"]),
+    ]) 
+    return tool_eval_prompt | llm.with_structured_output(EvaluationResult)
 
 
 #TODO:
