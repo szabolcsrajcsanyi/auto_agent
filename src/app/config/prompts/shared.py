@@ -36,6 +36,9 @@ Create a LangChain tool using the BaseTool interface for the following task:
 ### Task: 
 {task_description}
 
+### Context from previous steps:
+{context}
+
 ### Feedback: 
 {feedback}
 
@@ -114,4 +117,34 @@ FEEDBACK_PLANNER_HUMAN_PROMPT = """\
 
 ### Instructions:
 Revise the plan to better achieve the task using the feedback. Keep the plan actionable and focused on outcomes.
+"""
+
+
+TOOL_EVALUATION_SYSTEM_PROMPT = """\
+You are an expert evaluator responsible for determining whether the tool used successfully helped accomplish the user's task.
+
+Your job is to assess the final result and the reasoning for selecting the tool. Use your judgment to determine if the tool was appropriate and if the result indicates success.
+
+Be fair but critical. Do not assume the tool was successful unless the output clearly indicates it.
+"""
+
+
+TOOL_EVALUATION_HUMAN_PROMPT = """\
+### Task:
+{task}
+
+### Tool Selection Reason:
+{selection_reason}
+
+### Tool Output:
+{tool_output}
+
+### Instructions:
+Based on the tool output and selection reason, determine whether the tool fulfilled the task successfully.
+
+Respond in strict JSON format:
+{{
+  "success": true | false,
+  "reason": "Explain whether the tool was appropriate and if it achieved the task successfully."
+}}
 """

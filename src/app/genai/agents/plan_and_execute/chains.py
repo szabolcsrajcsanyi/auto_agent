@@ -1,10 +1,10 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import SystemMessage
 
-from src.app.genai.agents.plan_and_execute.schemas import Plan, Act
-from src.app.config.registry import AGENT_PROMPT_CONFIG, COMMON_PROMPT_CONFIG
-from src.app.config.enums import AgentType
-from src.app.genai.llm import llm
+from app.genai.agents.plan_and_execute.schemas import Plan, Act
+from app.config.registry import AGENT_PROMPT_CONFIG, COMMON_PROMPT_CONFIG
+from app.config.enums import AgentType
+from app.genai.llm import llm
 
 
 def create_planner_chain(agent_type: AgentType):

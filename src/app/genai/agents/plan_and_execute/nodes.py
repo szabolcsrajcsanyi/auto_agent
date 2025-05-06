@@ -1,12 +1,12 @@
 from langgraph.types import interrupt
 from langchain_core.runnables.config import RunnableConfig
 
-from src.app.genai.agents.plan_and_execute.chains import (
+from app.genai.agents.plan_and_execute.chains import (
     create_planner_chain,
     create_replanner_chain,
     create_feedback_planner_chain
 ) 
-from src.app.genai.agents.plan_and_execute.schemas import (
+from app.genai.agents.plan_and_execute.schemas import (
     Plan,
     PlanExecute,
     Act,
@@ -14,9 +14,9 @@ from src.app.genai.agents.plan_and_execute.schemas import (
     ReviewPlan,
     PlanToReview
 )
-from src.app.genai.agents.tool_manipulator.agent import agent_tool_manipulator
-from src.app.genai.agents.tool_manipulator.schemas import AgentState
-from src.app.config.enums import AgentType, PlanReviewAction, PlanReviewType
+from app.genai.agents.tool_manipulator.agent import agent_tool_manipulator
+from app.genai.agents.tool_manipulator.schemas import AgentState
+from app.config.enums import AgentType, PlanReviewAction, PlanReviewType
 
 
 def execute_step(state: PlanExecute, config: RunnableConfig) -> PlanExecute:
@@ -29,13 +29,16 @@ def execute_step(state: PlanExecute, config: RunnableConfig) -> PlanExecute:
     agent_response = agent_tool_manipulator.invoke(
         AgentState(
             task=task_formatted,
-            agent_type=agent_type)
+            agent_type=agent_type,
+            past_steps=state.past_steps)
     )
-    print("EXECUTED")
+    new_past_steps = list(state.past_steps or [])
+    new_past_steps.append((task, agent_response["answer"]))
+
     return PlanExecute(
         task=state.task,
         plan=state.plan,
-        past_steps=[(task, agent_response["answer"])],
+        past_steps=new_past_steps,
     )
 
 

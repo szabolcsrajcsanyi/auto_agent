@@ -1,16 +1,15 @@
-# streamlit_app.py
 import uuid
 import streamlit as st
 
 from collections import OrderedDict
 
-from src.app.config.enums import AgentType, PlanReviewType
-from src.app.genai.tools.tool_manager import tool_manager
-from src.app.genai.agents.plan_and_execute.agent import plan_and_execute_agent
-from src.app.genai.agents.plan_and_execute.schemas import PlanToReview, PlanExecute
-from src.app.genai.agents.tool_manipulator.schemas import ReviewCode
-from src.app.streamlit_app.schema import ChatMessage, StreamOutput
-from src.app.streamlit_app.renders import (
+from app.config.enums import AgentType, PlanReviewType
+from app.genai.tools.tool_manager import tool_manager
+from app.genai.agents.plan_and_execute.agent import plan_and_execute_agent
+from app.genai.agents.plan_and_execute.schemas import PlanToReview, PlanExecute
+from app.genai.agents.tool_manipulator.schemas import ReviewCode
+from app.streamlit_app.schema import ChatMessage, StreamOutput
+from app.streamlit_app.renders import (
     render_messages,
     render_planner,
     render_replanner,
@@ -169,6 +168,12 @@ def run_agent(user_input):
                     chat_message.node = "replanner"
                     st.session_state.messages["replanner"] = chat_message
 
+            elif output.evaluate_tool_outcome:
+                chat_message.node = "evaluate_tool_outcome"
+                chat_message.content.append("### 🧠 Evaluating Tool Outcome...")
+                chat_message.state = output.evaluate_tool_outcome
+                st.session_state.messages["evaluate_tool_outcome"] = chat_message
+                render_answer_with_tool(chat_message)
 
 def main():
     with st.sidebar:

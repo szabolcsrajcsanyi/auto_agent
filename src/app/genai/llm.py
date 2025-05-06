@@ -5,12 +5,17 @@ from langgraph.prebuilt import create_react_agent
 
 
 llm = ChatOpenAI(
-    model="gpt-4o-mini", temperature=0
+    model="gpt-4.1-mini", temperature=0
 )
 
 
 tool_answer_llm = ChatOpenAI(
-    model="gpt-4o-mini"
+    model="gpt-4.1-mini", temperature=1
+)
+
+
+tool_generate_llm = ChatOpenAI(
+    model="o4-mini"
 )
 
 

@@ -9,4 +9,3 @@ chromadb
 streamlit
 streamlit-monaco
 langchain-tavily
-pyowm

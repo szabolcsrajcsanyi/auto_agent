@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Literal, Tuple
 
-from src.app.config.enums import AgentType, CodeReviewAction
+from app.config.enums import AgentType, CodeReviewAction
 
 
 class BaseTaskState(BaseModel):
@@ -20,6 +20,8 @@ class ToolSelection(BaseModel):
 
 class ToolData(BaseModel):
     retrieved_tool_ids: List[str] = []
+    candidate_tool: Optional[str] = None
+    reason: Optional[str] = None
     tool_output: Optional[str] = None
 
 
@@ -64,4 +66,9 @@ class ReviewCode(BaseModel):
     code: str
     feedback: Optional[str] = None
     action: Optional[CodeReviewAction] = None
+    
+
+class EvaluationResult(BaseModel):
+    success: bool
+    reason: str
     
