@@ -21,8 +21,8 @@ $(VENV_DIR)/bin/activate: ./requirements.txt
 # Run Python script with PYTHONPATH
 run:
 	@echo "Running flow.py with PYTHONPATH=$(PYTHONPATH)"
-	@$(STREAMLIT) run src/app/streamlit_app/streamlit_app.py
-#	@$(PYTHON) src/app/app.py
+	# @$(STREAMLIT) run src/app/streamlit_app/streamlit_app.py
+	@$(PYTHON) src/test2.py
 
 # Clean up virtual environment
 clean:

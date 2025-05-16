@@ -5,3 +5,4 @@ chroma/
 chromadb/
 src/app/genai/tools/static_tools.py
 test.py
+test2.py

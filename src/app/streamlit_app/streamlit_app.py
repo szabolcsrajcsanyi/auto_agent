@@ -2,6 +2,7 @@ import uuid
 import streamlit as st
 
 from collections import OrderedDict
+from langchain_core.runnables.graph import MermaidDrawMethod
 
 from app.config.enums import AgentType, PlanReviewType
 from app.genai.tools.tool_manager import tool_manager
@@ -182,6 +183,7 @@ def main():
                 if key not in {"agent_type"}:  # Keep agent type if you want
                     del st.session_state[key]
             st.rerun()
+
         st.title("Agent Configuration")
         agent_type = st.selectbox(
             "Select Agent Type",

@@ -45,11 +45,11 @@ def tool_evaluator_chain() -> RunnablePassthrough:
 
 
 #TODO:
-tool_executor_agent_prompt = ChatPromptTemplate.from_messages([
-    ("system", COMMON_PROMPT_CONFIG["tool_executor_agent_prompt"]["system_prompt"]),
-    ("human", "{input}"),
-    ("placeholder", "{agent_scratchpad}")
-])
+# tool_executor_agent_prompt = ChatPromptTemplate.from_messages([
+#     ("system", COMMON_PROMPT_CONFIG["tool_executor_agent_prompt"]["system_prompt"]),
+#     ("human", "{input}"),
+#     ("placeholder", "{agent_scratchpad}")
+# ])
 
 
 # if __name__ == "__main__":
