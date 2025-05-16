@@ -4,10 +4,6 @@ from typing import List, Optional, Literal, Tuple
 from app.config.enums import AgentType, CodeReviewAction
 
 
-class BaseTaskState(BaseModel):
-    task: str
-
-
 class CandidateTool(BaseModel):
     tool_choice: Literal["1", "2", "3", "NONE"]
     reason: Optional[str] = None
@@ -30,7 +26,8 @@ class CodeFeedback(BaseModel):
     feedback: Optional[str] = None
 
 
-class AgentState(BaseTaskState):
+class AgentState(BaseModel):
+    task: str
     past_steps: Optional[List[Tuple]] = Field(
         default=None,
         description="List of steps and their corresponding outputs"
@@ -47,7 +44,7 @@ class AgentState(BaseTaskState):
     answer: Optional[str] = None
 
 
-class ToolDecisionState(BaseTaskState):
+class ToolDecisionState(BaseModel):
     needs_tool: bool
     tool_description: str | None
 

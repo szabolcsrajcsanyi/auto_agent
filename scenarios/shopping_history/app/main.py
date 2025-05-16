@@ -21,7 +21,8 @@ from app.routers.users import router_users
 
 app = FastAPI(
     # openapi_tags=tags_metadata,
-    root_path="/api",
+    title="Shopping History API",
+    version="1.0.0",
     docs_url="/docs", 
     redoc_url="/redoc",
     openapi_url="/openapi.json"
