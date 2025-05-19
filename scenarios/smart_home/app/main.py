@@ -19,10 +19,9 @@ tags_metadata = [
 
 app = FastAPI(
     openapi_tags=tags_metadata,
-    root_path="/api",
-    docs_url="/docs", 
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    docs_url="/api/docs", 
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 api_router = APIRouter(prefix="/api")
 

@@ -7,12 +7,11 @@ from app.routers.orders import router_orders
 app = FastAPI(
     title="Warehouse Inventory API",
     version="1.0.0",
-    root_path="/api",
-    docs_url="/docs", 
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    docs_url="/api/docs", 
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
-api_router = APIRouter()
+api_router = APIRouter(prefix="/api")
 
 
 api_router.include_router(router_items)

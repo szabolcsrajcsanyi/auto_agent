@@ -18,23 +18,30 @@ from app.config.prompts.smart_home import (
     SMART_HOME_REPLANNER_SYSTEM_PROMPT,
     SMART_HOME_REPLANNER_HUMAN_PROMPT,
 )
-from app.config.prompts.web_browse import (
-    WEB_BROWSE_PLAN_SYSTEM_PROMPT,
-    WEB_BROWSE_REPLANNER_SYSTEM_PROMPT,
-    WEB_BROWSE_REPLANNER_HUMAN_PROMPT,
+from app.config.prompts.shopping_history import (
+    SHOPPING_HISTORY_PLAN_SYSTEM_PROMPT,
+    SHOPPING_HISTORY_PLAN_HUMAN_PROMPT,
+    SHOPPING_HISTORY_REPLANNER_SYSTEM_PROMPT,
+    SHOPPING_HISTORY_REPLANNER_HUMAN_PROMPT,
+)
+from app.config.prompts.inventory_management import (
+    INVENTORY_MANAGEMENT_PLAN_SYSTEM_PROMPT,
+    INVENTORY_MANAGEMENT_PLAN_HUMAN_PROMPT,
+    INVENTORY_MANAGEMENT_REPLANNER_SYSTEM_PROMPT,
+    INVENTORY_MANAGEMENT_REPLANNER_HUMAN_PROMPT,
 )
 
 AGENT_PROMPT_CONFIG = {
-    AgentType.GENERAL_ASSISTANT: {
-        "planner_prompt": {
-            "system_prompt": WEB_BROWSE_PLAN_SYSTEM_PROMPT,
-            "human_prompt": "{task}"
-        },
-        "replanner_prompt": {
-            "system_prompt": WEB_BROWSE_REPLANNER_SYSTEM_PROMPT,
-            "human_prompt": WEB_BROWSE_REPLANNER_HUMAN_PROMPT
-        }
-    },
+    # AgentType.GENERAL_ASSISTANT: {
+    #     "planner_prompt": {
+    #         "system_prompt": WEB_BROWSE_PLAN_SYSTEM_PROMPT,
+    #         "human_prompt": "{task}"
+    #     },
+    #     "replanner_prompt": {
+    #         "system_prompt": WEB_BROWSE_REPLANNER_SYSTEM_PROMPT,
+    #         "human_prompt": WEB_BROWSE_REPLANNER_HUMAN_PROMPT
+    #     }
+    # },
     AgentType.SMART_HOME: {
         "planner_prompt": {
             "system_prompt": SMART_HOME_PLAN_SYSTEM_PROMPT,
@@ -43,6 +50,26 @@ AGENT_PROMPT_CONFIG = {
         "replanner_prompt": {
             "system_prompt": SMART_HOME_REPLANNER_SYSTEM_PROMPT,
             "human_prompt": SMART_HOME_REPLANNER_HUMAN_PROMPT
+        }
+    },
+    AgentType.SHOPPING_HISTORY: {
+        "planner_prompt": {
+            "system_prompt": SHOPPING_HISTORY_PLAN_SYSTEM_PROMPT,
+            "human_prompt": SHOPPING_HISTORY_PLAN_HUMAN_PROMPT
+        },
+        "replanner_prompt": {
+            "system_prompt": SHOPPING_HISTORY_REPLANNER_SYSTEM_PROMPT,
+            "human_prompt": SHOPPING_HISTORY_REPLANNER_HUMAN_PROMPT
+        }
+    },
+    AgentType.INVENTORY_MANAGEMENT: {
+        "planner_prompt": {
+            "system_prompt": INVENTORY_MANAGEMENT_PLAN_SYSTEM_PROMPT,
+            "human_prompt": INVENTORY_MANAGEMENT_PLAN_HUMAN_PROMPT
+        },
+        "replanner_prompt": {
+            "system_prompt": INVENTORY_MANAGEMENT_REPLANNER_SYSTEM_PROMPT,
+            "human_prompt": INVENTORY_MANAGEMENT_REPLANNER_HUMAN_PROMPT
         }
     },
 }

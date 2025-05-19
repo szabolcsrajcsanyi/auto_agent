@@ -105,7 +105,7 @@ def replan_step(state: PlanExecute, config: RunnableConfig) -> PlanExecute:
         "past_steps": state.past_steps
     })
     
-
+    print("REPLANNING OUTPUT:", output, flush=True)
     if isinstance(output.action, Response):
         return state.model_copy(
             update={
@@ -114,6 +114,7 @@ def replan_step(state: PlanExecute, config: RunnableConfig) -> PlanExecute:
             },
         )
     else:
+        print("REPLANNING:", output.action)
         return state.model_copy(
             update={
                 "plan": output.action,
