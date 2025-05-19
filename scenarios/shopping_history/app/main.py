@@ -23,9 +23,9 @@ app = FastAPI(
     # openapi_tags=tags_metadata,
     title="Shopping History API",
     version="1.0.0",
-    docs_url="/docs", 
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    docs_url="/api/docs", 
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 api_router = APIRouter(prefix="/api")
 

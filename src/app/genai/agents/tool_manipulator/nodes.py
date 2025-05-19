@@ -247,7 +247,16 @@ def evalutate_tool_outcome(state: AgentState) -> AgentState:
 
 
 def answer_without_tool(state: AgentState) -> AgentState:
-    result = llm.invoke(state.task)
+    context_messages = []
+    if state.past_steps:
+        for question, answer in state.past_steps:
+            context_messages.append(("user", question))
+            context_messages.append(("assistant", answer))
+
+    context_messages.append(("user", state.task))
+
+    # result = llm.invoke(state.task)
+    result = llm.invoke(context_messages)
     return state.model_copy(
         update={
             "answer": result.content,

@@ -4,7 +4,8 @@ from enum import Enum
 class AgentType(str, Enum):
     GENERAL_ASSISTANT = "general_assistant"
     SMART_HOME = "smart_home"
-    SCHEDULING_ASSISTANT = "scheduling_assistant"
+    SHOPPING_HISTORY = "shopping_history"
+    INVENTORY_MANAGEMENT = "inventory_management"
 
 
 class PlanReviewAction(str, Enum):
