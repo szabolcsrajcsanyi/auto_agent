@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class AgentType(str, Enum):
-    GENERAL_ASSISTANT = "general_assistant"
+    # GENERAL_ASSISTANT = "general_assistant"
     SMART_HOME = "smart_home"
     SHOPPING_HISTORY = "shopping_history"
     INVENTORY_MANAGEMENT = "inventory_management"
