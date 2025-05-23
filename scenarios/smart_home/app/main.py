@@ -18,6 +18,7 @@ tags_metadata = [
 
 
 app = FastAPI(
+    title="Smart Home API",
     openapi_tags=tags_metadata,
     docs_url="/api/docs", 
     redoc_url="/api/redoc",
