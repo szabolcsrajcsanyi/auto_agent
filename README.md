@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🧠 Autonomous Agent System
 
 This repository contains the implementation of an autonomous agent system designed to solve complex tasks by planning, executing, and interacting with simulated external APIs. The system includes a web-based UI and three simulated APIs: Smart Home, Shopping History, and Inventory Management.
@@ -53,6 +52,3 @@ The project includes three APIs for simulation purposes. Their documentation can
 | Inventory Management API | `http://localhost:8083/api/docs` | `http://inventory_management/api/openapi.json`|
 
 > ⚠️ **Important:** When providing an API endpoint to the agent, always use the **Docker network URL** (right column) so the agent inside the Docker container can access the API correctly.
-=======
-# auto_agent
->>>>>>> 9f5b162 (Initial commit)
